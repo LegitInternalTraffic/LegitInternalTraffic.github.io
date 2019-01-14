@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Legit Internal Traffic
-email: your-email@example.com
+email: legit@internal.traffic
 description: >- # this means to ignore newlines until "baseurl:"
   LegitInternalTraffic.com is a blogging website to publish write-ups of awesome capture-the-flag
   challenges and interesting cyber security research. LegitInternalTraffic is a CTF group of 
@@ -25,8 +25,8 @@ baseurl: ""                         #uncomment for publish
 url: "legitinternaltraffic.github.io"
 #url: "localhost:4000"
 permalink: /:title
-twitter_username: jekyllrb
-github_username:  jekyll
+twitter_username: LegitInternalTraffic
+github_username:  LegitInternalTraffic
 
 # Build settings
 markdown: kramdown

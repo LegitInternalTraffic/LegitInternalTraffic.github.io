@@ -9,15 +9,14 @@ tag: "Write-up"
 ---
 ![KringleCon Invitation]({{ site.baseurl }}/images/{{ page.imgsubdir }}/KringleCon.png)
 
-It is that time of the year again, the time for decorated Christmas trees, beautifully wrapped presents and of course the SANS Holiday Hack Challenge. This year’s edition brought us to CringleCon, a security conference for security professionals and enthusiasts, organized by Santa himself at his castle on the North Pole. After a globally orchestrated crowdsourced burglary attempt, time-traveling train hacking and an almost successful abominable war between the elves and the munchkins, it is time to build a community, build our skills and keep the holiday season safe from evil supervillains.
+It is that time of the year again, the time for decorated Christmas trees, beautifully wrapped presents and of course the SANS Holiday Hack Challenge. This year’s edition brought us to KringleCon, a security conference for security professionals and enthusiasts, organized by Santa himself at his castle on the North Pole. After a globally orchestrated crowdsourced burglary attempt, time-traveling train hacking and an almost successful abominable war between the elves and the munchkins, it is time to build a community, build our skills and keep the holiday season safe from evil supervillains.
 
-After weeks of waiting in front of the gate to Santa’s castle, the gates opened mid-December. Passing through the gate, we were greeted by Santa himself. He handed us the conference badge that gave us our objectives and the list of talks that are hosted at the conference. 
+After weeks of waiting in front of the gate to Santa’s castle, the gate opened mid-December. Passing through the gate, we were greeted by Santa himself. He handed us the conference badge that gave us our objectives and the list of talks that are hosted at the conference. 
 
 ![Me and Santa]({{ site.baseurl }}/images/{{ page.imgsubdir }}/main-me-and-santa.png)
 
 
 This report discusses the solved challenges and objectives, 14 in total, that are presented at KringleCon along with the storyline.
-
 
 - [tag: "Write-up"](#tag-%22write-up%22)
 - [1. Orientation Challenge](#1-orientation-challenge)
@@ -51,6 +50,8 @@ What phrase is revealed when you answer all of the following KringleCon Holiday 
 
 ![Happy Trails]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch1-happy-trails.png)
 
+All answers to the questions are given by Ed Skoudis' talk *Start Here* available on [youtube](https://www.youtube.com/watch?v=31JsKzsbFUo).
+
 ## 2. Directory Browsing
 In order to arrange the presentations for the security conference, Santa set up a [Call for Papers](https://cfp.kringlecastle.com/) website to collect recent and interesting research topics. 
 
@@ -62,7 +63,6 @@ Upon visiting, the CFP website shows two buttons that lead you to the following 
 
 The second web page is hosted from a subdirectory `cfp` relative to the web root node. The server might be misconfigured such that directory listing for the subdirectory `cfp` is enabled. Visiting the subdirectory at `https://cfp.kringlecastle.com/cfp/` shows that directory listing is enabled and moreover shows an additional data file of the rejected talks: `rejected-talks.csv`. 
 ![Directory Listing of CFP Directory]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch2-index-of-cfp.png)
-
 
 The file is available on `https://cfp.kringlecastle.com/cfp/rejected-talks.csv` and as the name suggests, the file contains the answer information about the rejected talks. When searching for the talk that we are interested in we find the author to be John McClane.
 
@@ -88,7 +88,6 @@ In the above output we choose to use the following mapping:
 Upon entering the generated de Bruijn sequence at the door, we see that the sequence star - square - circle - star unlocks the door. After we enter the Speaker Unpreparedness room, we find Marcel Nougat presenting the message *Welcome unprepared speaker!*
 
 ![Correct Passcode]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch3-correct-guess.png)
-
 
 ## 4. Data Repo Analysis
 Collaborative software development requires a Git repository and even Santa's elves incorporated an agile workflow. Some of Santa's castle's best-kept secrets can be securely shared on a public Git repo, if and only if the data itself is properly secured. Or is it?
@@ -129,7 +128,6 @@ There are five Kerberoastable accounts that have a path the Domain Admins group,
 
 ![BloodHound Kerberoastable User]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch5-bloodhound-kerberoastable-user.png)
 
-
 ## 6. Badge Manipulation
 Santa's castle contains a secured room. The room is secured with an authentication mechanism, the Bade Scano-o-matic 4000, to grant access only to authorized elves. One of the authorized elves is Alabaster, of whom we have the following employee card.
 
@@ -165,7 +163,6 @@ The website is available at [careers.kringlecastle.com](https://careers.kringlec
 
 ![Careers Website Index Page]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch7-careers-index.png)
 
-
 Apart from the index page, there is also a custom 404 error page when you request a resource that cannot be found.
 
 ![Careers Website 404 Not Found Page]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch7-careers-404.png)
@@ -183,11 +180,7 @@ We save our payload to a file with a `.csv` extension, and next download our doc
 Inside the document we see that one job applicant's name starts with a K, Krampus. The following comments were attached to the section about Krampus.
 ![Comments on Krampus in candidate_evaluation.docx]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch7-krampus-comments.png)
 
-
 From the comments we can conclude that there is intelligence from the North Pole that links Krampus to cyber terrorist organization Fancy Beaver. So therefore Fancy Beaver is the answer to our objective.
-
-
-
 
 ## 8. Network Traffic Forensics
 Santa has introduced a web-based packet capture and analysis tool at [packalyzer.kringlecastle.com](https://packalyzer.kringlecastle.com) to support the elves and their information security work. Using the system, access and decrypt HTTP/2 network activity. What is the name of the song described in the document sent from Holly Evergreen to Alabaster Snowball? 
@@ -269,7 +262,6 @@ Within a few seconds, we were prompted with the following message:
 ```
 [+] Congratulation! Snort is alerting on all ransomware and only the ransomware! 
 ```
-
 
 ## 9.b. Identify the Domain
 All the elves were emailed a cookie recipe right before all the infections. Take [this document](https://www.holidayhackchallenge.com/2018/challenges/CHOCOLATE_CHIP_COOKIE_RECIPE.zip) with a password of elves and find the domain it communicates with. Using the Word docm file, identify the domain name that the malware communicates with.
