@@ -16,11 +16,11 @@
 title: Legit Internal Traffic
 email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-#baseurl: "/legit-internal-traffic"  #uncomment for publish
-baseurl: ""                         #comment for publish 
+  LegitInternalTraffic.com is a blogging website to publish write-ups of awesome capture-the-flag
+  challenges and interesting cyber security research. LegitInternalTraffic is a CTF group of 
+  Dutch cyber security enthusiasts and professionals.
+#baseurl: "/legit-internal-traffic"  #comment for publish
+baseurl: ""                         #uncomment for publish 
 #url: "daveystruijk.github.io"
 url: "legitinternaltraffic.github.io"
 #url: "localhost:4000"
