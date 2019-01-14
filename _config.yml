@@ -14,19 +14,19 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Legit Internal Traffic
-email: legit@internal.traffic
+email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  LegitInternalTraffic.com is a blogging website to publish write-ups of awesome capture-the-flag
-  challenges and interesting cyber security research. LegitInternalTraffic is a CTF group of 
-  Dutch cyber security enthusiasts and professionals.
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
 #baseurl: "/legit-internal-traffic"  #uncomment for publish
 baseurl: ""                         #comment for publish 
 #url: "daveystruijk.github.io"
 url: "legitinternaltraffic.github.io"
 #url: "localhost:4000"
 permalink: /:title
-twitter_username: LegitInternalTraffic
-github_username:  LegitInternalTraffic
+twitter_username: jekyllrb
+github_username:  jekyll
 
 # Build settings
 markdown: kramdown
