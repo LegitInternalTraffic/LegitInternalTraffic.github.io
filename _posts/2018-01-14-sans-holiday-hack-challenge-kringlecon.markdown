@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post-snow
 title:  "SANS Holiday Hack Challenge 2018"
 date:   2018-01-06 08:31:22 +0100
 summary: "KringleCon, a security conference on the North Pole."
@@ -18,7 +18,6 @@ After weeks of waiting in front of the gate to Santa’s castle, the gate opened
 
 This report discusses the solved challenges and objectives, 14 in total, that are presented at KringleCon along with the storyline.
 
-- [tag: "Write-up"](#tag-%22write-up%22)
 - [1. Orientation Challenge](#1-orientation-challenge)
 - [2. Directory Browsing](#2-directory-browsing)
 - [3. de Bruijn Sequences](#3-de-bruijn-sequences)
@@ -28,12 +27,12 @@ This report discusses the solved challenges and objectives, 14 in total, that ar
 - [7. HR Incident Response](#7-hr-incident-response)
 - [8. Network Traffic Forensics](#8-network-traffic-forensics)
 - [9. Ransomware Recovery](#9-ransomware-recovery)
-- [9.a. Catch the Malware](#9a-catch-the-malware)
-- [9.b. Identify the Domain](#9b-identify-the-domain)
-- [9.c. Stop the malware](#9c-stop-the-malware)
-- [9.d. Recover Alabaster's Password](#9d-recover-alabasters-password)
+  - [9.a. Catch the Malware](#9a-catch-the-malware)
+  - [9.b. Identify the Domain](#9b-identify-the-domain)
+  - [9.c. Stop the malware](#9c-stop-the-malware)
+  - [9.d. Recover Alabaster's Password](#9d-recover-alabasters-password)
 - [10. Who Is Behind it all?](#10-who-is-behind-it-all)
-- [Easter Egg](#easter-egg)
+- [Easter Eggs](#easter-eggs)
 - [Narrative](#narrative)
 
 ## 1. Orientation Challenge
@@ -157,7 +156,7 @@ To create the query above, we have to inject the value `' OR '1'='1' AND Enabled
 ![Badge Scan-o-matic 4000 Bypassed]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch6-badge-success.png)
 
 ## 7. HR Incident Response
-Santa uses an Elf Resources website to look for talented information security professionals. Gain access to the website and fetch the document C:\candidate_evaluation.docx. Which terrorist organization is secretly supported by the job applicant whose name begins with "K"? Answer: **Fancy Beaver**
+Santa uses an Elf Resources website to look for talented information security professionals. Gain access to the website and fetch the document `C:\candidate_evaluation.docx`. Which terrorist organization is secretly supported by the job applicant whose name begins with "K"? Answer: **Fancy Beaver**
 
 The website is available at [careers.kringlecastle.com](https://careers.kringlecastle.com/) and shows a submission form for personal information and a csv file. The csv upload surely looks interesting, but before attacking, lets first get to know the website.
 
@@ -242,7 +241,7 @@ Next to Alabaster we see three different terminals. The terminal close to Alabas
 ![WannaCookie Ransomware Infection]({{ site.baseurl }}/images/{{ page.imgsubdir }}/sans-ch9-wannacookie.png)
 
 
-## 9.a. Catch the Malware
+### 9.a. Catch the Malware
 Kringle Castle is currently under attacked by new piece of ransomware that is encrypting all the elves files. Our job is to configure Snort to alert on ONLY the bad ransomware traffic. A snapshot of the castle's DNS traffic is available at [Snortsensor1](http://Snortsensor1.kringlecastle.com/). One can log in with the username elf and password onashelf to access the network packet captures.
 
 After downloading one network packet capture, we open the file in Wireshark. Immediately, specific DNS requests stand out. The following list shows a subset of the suspicious domain:
@@ -263,7 +262,7 @@ Within a few seconds, we were prompted with the following message:
 [+] Congratulation! Snort is alerting on all ransomware and only the ransomware! 
 ```
 
-## 9.b. Identify the Domain
+### 9.b. Identify the Domain
 All the elves were emailed a cookie recipe right before all the infections. Take [this document](https://www.holidayhackchallenge.com/2018/challenges/CHOCOLATE_CHIP_COOKIE_RECIPE.zip) with a password of elves and find the domain it communicates with. Using the Word docm file, identify the domain name that the malware communicates with.
 
 After retrieving the docm file, we must be very careful with the file, since the docm is probably the start of the ransomware infection. When we run the command `file CHOCOLATE_CHIP_COOKIE_RECIPE.docm` we see that the document is a `Microsoft Word 2007+` document. Malicious word documents often contain VBA Macros that use [Object Linking & Embedding](https://en.wikipedia.org/wiki/Object_Linking_and_Embedding) for code execution. We can analyze the docm with the tool [olevba](https://github.com/decalage2/oletools/wiki/olevba) to detect safely output the VBA macros. We run the tool with the command `olevba CHOCOLATE_CHIP_COOKIE_RECIPE.docm`, which results in the following output.
@@ -279,7 +278,7 @@ From the readable code, we can see that the macro communicates with the server *
 
 The server domain erohetfanu is the ROT13-reverse encoding of again hansgruber.
 
-## 9.c. Stop the malware
+### 9.c. Stop the malware
 Alabaster tells us that blocking erohetfanu will not completely eradicate the ransomware, since Snort rules also show other domains being queried. There are likely multiple versions of the ransomware that contact different domains. We remember the ransomware WannaCry from summer 2017 that had a kill switch in its source code. Possibly, this type of ransomware would also have such a mechanism.
 
 The powershell code presented in challenge 9.b. is simply the dropper of the ransomware. The dropper works as follows:
@@ -309,7 +308,7 @@ H2A $(B2H $(ti_rox $(B2H $(G2B $(H2B $S1))) $(Resolve-DnsName -Server erohetfanu
 
 The code above returns the value **yippeekiyaa.aaay**, which is our kill switch domain! After we register the domain yippeekiyaa.aaay at the Ho Ho Ho Daddy terminal, Alabaster reports that the ransomware has stopped spreading.
         
-## 9.d. Recover Alabaster's Password
+### 9.d. Recover Alabaster's Password
 Unfortunately the kill switch was discovered too late to protect Alabaster's assets from encryption by WannaCookie. Luckily Alabaster made a memory dump after encryption for us to work with to decrypt an encrypted database file. Recover Alabaster's password as found in the encrypted password vault. Answer: **ED#ED#EED#EF#G#F#G#ABA#BA#B**.
 
 In the previous exercise we acquired the ransomware source code. We see that the files are encrypted with the following command:
@@ -385,7 +384,7 @@ If we enter our transposed key sequence on the piano lock, the following message
 As the door opens, we pass through to see Santa and Hans standing together. Santa explains that he had set up the entire attack with help of his friend Hans, who was playing the bad guy. Santa wanted to see who was qualified enough to help him out in defending his Castle and Christmas operations for next year. 
 
 
-## Easter Egg
+## Easter Eggs
 Every year the SANS Holiday Hack Challenge contains easter eggs, which often are references to a specific movie. Without a doubt, we can state that this winter's edition revolved around the Die Hard movie. The following references have been found:
 - From question 2: The main character of all Die Hard movies, John McClane, was the person who submitted the rejected talk. 
 - From question 4: The password to the encrypted ZIP file, Yippee-ki-yay, was the catchphrase used by John McClane in all Die Hard movies.
