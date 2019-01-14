@@ -1,7 +1,7 @@
 ---
 layout: post-snow
 title:  "SANS Holiday Hack Challenge 2018"
-date:   2018-01-06 08:31:22 +0100
+date:   2018-01-06 21:31:22 +0100
 summary: "KringleCon, a security conference on the North Pole."
 author: "Wesley van der Lee"
 imgsubdir: "2018-sans-holiday-hack-challenge-kringlecon"
