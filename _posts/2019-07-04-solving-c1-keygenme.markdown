@@ -22,7 +22,12 @@ Keygen information:
 Running the application shows the banner of the crackme and asks the user to input a username and license key.
 To create a keygen for this application we have to understand the algorithm that is implemented to verify the username and license key. Let's take a look at the keygenme with Ghidra in order to understand what's happening with the user input.
 
-By looking at the strings in the file 4 strings are present that relate to the keygenme. The string that is printed when successfully inputting a username and license key is used in the function at 0x000113ef. The decompilation of this function is as follows.
+![Keygenme Banner]({{ site.baseurl }}/images/{{ page.imgsubdir }}/banner.png "Keygenme Banner")
+
+By looking at the strings in the file 4 strings are present that relate to the keygenme in the defined strings window. 
+![Strings]({{ site.baseurl }}/images/{{ page.imgsubdir }}/strings.png "strings")
+
+The string that is printed when successfully inputting a username and license key is used in the function at `0x000113ef`. To easily locate the string usage select it and use the shortcut `ctrl+shift+f` to find references. The decompilation of this function is as follows.
 
 ```c
 void FUN_000113ef(void)
@@ -86,7 +91,7 @@ void FUN_000113ef(void)
 ```
 
 ## Cleanup
-To continue the analysis it's usefull to start renaming functions and variables such that the code becomes more readable. The snippet shows that the function at 0x00011343 is often called. By pivoting to this function we can see that it's only purpose is to print "Invalid license key or username" and exit the program. Renaming this function makes it easier to spot which code paths should be avoided. Other low hanging fruit is renaming the variables where user input is stored to see where it's used, I do the same for variables that store the output of functions such as `strlen`.
+To continue the analysis it's usefull to start renaming functions and variables such that the code becomes more readable. The snippet shows that the function at `0x00011343` is often called. By pivoting (simply doubleclick the function) to this function we can see that it's only purpose is to print `Invalid license key or username` and exit the program. Renaming this function makes it easier to spot which code paths should be avoided, to speed up renaming make use of the shortcut `l` when the variable or function is selected. Other low hanging fruit is renaming the variables where user input is stored to see where it's used, I do the same for variables that store the output of functions such as `strlen`.
 
 ```c
 void keygenme(void)
@@ -158,7 +163,7 @@ The code shows the first part where the user input is checked and might result i
   }
  ```
 
- Let's inspect the function at 0x00011371 to see what result it produces and how we can manipulate our input in order for the result to be other than 0.
+ Let's inspect the function at `0x00011371` to see what result it produces and how we can manipulate our input in order for the result to be other than 0.
 
  ```c
  ulong FUN_00011371(char *param_1)
@@ -179,7 +184,7 @@ The code shows the first part where the user input is checked and might result i
 }
 ```
 
-The function seems to split the provided key in two parts where the key is divided by the '-' character. After the split the value to the right of '-' is converted to a long and returned by the function. Thus the key will look something like `deadbeef-cafebabe`. A reasonalble name for this function would be getKeyPart2 and the resulting variable keyPart2.
+The function seems to split the provided key in two parts where the key is divided by the `-` character. After the split the value to the right of `-` is converted to a long and returned by the function. Thus the key will look something like `deadbeef-cafebabe`. A reasonalble name for this function would be getKeyPart2 and the resulting variable keyPart2.
 
 ```c
 void keygenme(void)
@@ -242,7 +247,7 @@ void keygenme(void)
 ```
 
 ## Check 2
-The next check asserts that the license length is 0x40 (note that the getKeyPart2 function substituted the '-' for a null byte thus terminating the cstring earlier) and the username must be character or longer. Next to this the license is used by the function at 0x000112b8 and must result in a value other than 0. After cleanup this function looks like the following.
+The next check asserts that the license length is `0x40` (note that the getKeyPart2 function substituted the `-` for a null byte thus terminating the cstring earlier) and the username must be character or longer. Next to this the license is used by the function at `0x000112b8` and must result in a value other than 0. After cleanup this function looks like the following.
 
 ```c
 undefined4 checkHexNumeric(char *inputString)
@@ -287,7 +292,7 @@ while (i < 0x20) {
 ```
 The license key is transformed from hex to binary with the use of sscanf so let's name the variable accordingly.
 
-After the transformation the username and username length are provided to the function at 0x00011219 so let's find out what it does.
+After the transformation the username and username length are provided to the function at `0x00011219` so let's find out what it does.
 
 ```c
 uint FUN_00011219(int param_1,uint param_2)
@@ -448,3 +453,11 @@ keypart1 = binascii.hexlify(key).decode()
 keypart2 = hex(binascii.crc32(calculatekey))
 print("{}-{}".format(keypart1, keypart2))
 ```
+
+Running this script gives the following output for example.
+
+![Keygen]({{ site.baseurl }}/images/{{ page.imgsubdir }}/keygen.png "keygen")
+
+Using the output from the keygen we get the following output from the keygemne.
+
+![Solved]({{ site.baseurl }}/images/{{ page.imgsubdir }}/solved.png "solved")
