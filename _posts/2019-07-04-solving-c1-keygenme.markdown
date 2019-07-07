@@ -3,7 +3,7 @@ layout: post
 title:  "solving c1 keygenme"
 date:   2019-07-04 11:03:22 +0100
 summary: "Use ghidra to reverse engineer an algorithm and build a keygen"
-author: "Max de Bruijn"
+author: "@maxdebruijn"
 tag: "Write-up"
 imgsubdir: "2019-solving-c1-keygenme"
 categories: ctf
@@ -153,7 +153,7 @@ void keygenme(void)
 }
 ```
 
-## Check 1
+## RE keysplit
 The code shows the first part where the user input is checked and might result in an invalid key message.
 
 ```c
@@ -246,7 +246,7 @@ void keygenme(void)
 }
 ```
 
-## Check 2
+## RE verify alphabet
 The next check asserts that the license length is `0x40` (note that the getKeyPart2 function substituted the `-` for a null byte thus terminating the cstring earlier) and the username must be character or longer. Next to this the license is used by the function at `0x000112b8` and must result in a value other than 0. After cleanup this function looks like the following.
 
 ```c
@@ -280,7 +280,7 @@ undefined4 checkHexNumeric(char *inputString)
 
 The function iterates over all character in the provided string and checks it for a specific trait. The `__ctype_b_loc` function results in a onehot encoded value showing if a byte is printable, numeric, uppercase, etc. where in this case it's checked if the byte represents a hex numeric value. This confirms that the first part of the license has to be hexadecimal as well.
 
-## Part 3
+## RE binary transformation and crc checksum
 Directly after this assertion we see the following code snippet
 ```c
 i = 0;
@@ -332,7 +332,7 @@ uint crc32(int inputString,uint inputStringLength)
 }
 ```
 
-## Part 4
+## RE input validation algorithm
 ```c
 i = 0;
 while (i < 0x20) {
